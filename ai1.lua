@@ -1161,7 +1161,7 @@ local function DoSmartCycle()
     end
     
     -- Wait for completion and fish catch animations
-    task.wait(GetRealisticTiming("reeling"))
+    task.wait(GetRealisticTiming("reeling")),
     
     -- Check if fish was caught via animation or simulate
     if not AnimationMonitor.fishingSuccess and not fishCaughtRemote then
@@ -1471,7 +1471,7 @@ local function AutofishRunner(mySession)
             delay = smartDelay + (math.random()*0.2 - 0.1)
         end
         
-        if delay < 0.15 then delay = 0.15 end -- Minimum delay (reduced for fast mode)
+        if delay < 0.15 then delay = 0.15 end -- Minimum delay (reduced for fast mode) 
         
         local elapsed = 0
         while elapsed < delay do
@@ -1669,41 +1669,7 @@ local function BuildUI()
     fishingAITabBtn.TextColor3 = Color3.fromRGB(230, 230, 230)
     Instance.new("UICorner", fishingAITabBtn)
 
-    -- Auto+Instan Button
-    -- Auto+Instan Button di dalam Tab Fishing AI (tepat di atas Anti AFK section)
-    local autoInstanBtn = Instance.new("TextButton", fishingAIScrollFrame)
-    autoInstanBtn.Size = UDim2.new(1, -20, 0, 38)
-    autoInstanBtn.Position = UDim2.new(0, 10, 0, 225) -- Di atas Anti AFK section (Anti AFK di Y=265)
-    autoInstanBtn.Text = "Auto+Instan"
-    autoInstanBtn.Font = Enum.Font.GothamBold
-    autoInstanBtn.TextSize = 15
-    autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
-    autoInstanBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Instance.new("UICorner", autoInstanBtn)
-
-    -- Loop logic for Auto+Instan
-    local autoInstanActive = false
-    local autoInstanLoop
-    autoInstanBtn.MouseButton1Click:Connect(function()
-        autoInstanActive = not autoInstanActive
-        if autoInstanActive then
-            autoInstanBtn.Text = "Stop Auto+Instan"
-            autoInstanBtn.BackgroundColor3 = Color3.fromRGB(200, 70, 70)
-            autoInstanLoop = task.spawn(function()
-                while autoInstanActive do
-                    if finishRemote then
-                        pcall(function() finishRemote:FireServer() end)
-                    end
-                    task.wait(0.05)
-                end
-            end)
-            Notify("Auto+Instan", "Loop aktif!")
-        else
-            autoInstanBtn.Text = "Auto+Instan"
-            autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
-            Notify("Auto+Instan", "Loop dihentikan!")
-        end
-    end)
+    
     fishingAITabBtn.Position = UDim2.new(0, 5, 0, 10)
     fishingAITabBtn.Text = "🤖 Fishing AI"
     fishingAITabBtn.Font = Enum.Font.GothamSemibold
@@ -1836,7 +1802,7 @@ local function BuildUI()
     local secureStopButton = Instance.new("TextButton", secureModeSection)
     secureStopButton.Size = UDim2.new(0.48, -5, 0, 35)
     secureStopButton.Position = UDim2.new(0.52, 5, 0, 35)
-    secureStopButton.Text = "� Stop Secure"
+    secureStopButton.Text = " Stop Secure"
     secureStopButton.Font = Enum.Font.GothamSemibold
     secureStopButton.TextSize = 12
     secureStopButton.BackgroundColor3 = Color3.fromRGB(190,60,60)
@@ -1909,7 +1875,7 @@ local function BuildUI()
     -- SECTION: Auto+Instan (mengikuti cara section lain)
     local autoInstanSection = Instance.new("Frame", fishingAIScrollFrame)
     autoInstanSection.Size = UDim2.new(1, -10, 0, 60)
-    autoInstanSection.Position = UDim2.new(0, 5, 0, 255)
+    autoInstanSection.Position = UDim2.new(0, 5, 0, 265)
     autoInstanSection.BackgroundColor3 = Color3.fromRGB(45,45,52)
     autoInstanSection.BorderSizePixel = 0
     Instance.new("UICorner", autoInstanSection)
@@ -1958,62 +1924,12 @@ local function BuildUI()
         end
     end)
 
-    -- SECTION: Auto+Instan
-    local autoInstanSection = Instance.new("Frame", fishingAIScrollFrame)
-    autoInstanSection.Size = UDim2.new(1, -10, 0, 60)
-    autoInstanSection.Position = UDim2.new(0, 5, 0, 260)
-    autoInstanSection.BackgroundColor3 = Color3.fromRGB(45,45,52)
-    autoInstanSection.BorderSizePixel = 0
-    Instance.new("UICorner", autoInstanSection)
-
-    local autoInstanLabel = Instance.new("TextLabel", autoInstanSection)
-    autoInstanLabel.Size = UDim2.new(1, -20, 0, 20)
-    autoInstanLabel.Position = UDim2.new(0, 10, 0, 5)
-    autoInstanLabel.Text = "⚡ Auto+Instan Fishing"
-    autoInstanLabel.Font = Enum.Font.GothamBold
-    autoInstanLabel.TextSize = 14
-    autoInstanLabel.TextColor3 = Color3.fromRGB(70,130,200)
-    autoInstanLabel.BackgroundTransparency = 1
-    autoInstanLabel.TextXAlignment = Enum.TextXAlignment.Left
-
-    local autoInstanBtn = Instance.new("TextButton", autoInstanSection)
-    autoInstanBtn.Size = UDim2.new(0.5, -8, 0, 28)
-    autoInstanBtn.Position = UDim2.new(0, 10, 0, 30)
-    autoInstanBtn.Text = "Auto+Instan"
-    autoInstanBtn.Font = Enum.Font.GothamBold
-    autoInstanBtn.TextSize = 13
-    autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
-    autoInstanBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Instance.new("UICorner", autoInstanBtn)
-
-    -- Loop logic for Auto+Instan
-    local autoInstanActive = false
-    local autoInstanLoop
-    autoInstanBtn.MouseButton1Click:Connect(function()
-        autoInstanActive = not autoInstanActive
-        if autoInstanActive then
-            autoInstanBtn.Text = "Stop Auto+Instan"
-            autoInstanBtn.BackgroundColor3 = Color3.fromRGB(200, 70, 70)
-            autoInstanLoop = task.spawn(function()
-                while autoInstanActive do
-                    if finishRemote then
-                        pcall(function() finishRemote:FireServer() end)
-                    end
-                    task.wait(0.05)
-                end
-            end)
-            Notify("Auto+Instan", "Loop aktif!")
-        else
-            autoInstanBtn.Text = "Auto+Instan"
-            autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
-            Notify("Auto+Instan", "Loop dihentikan!")
-        end
-    end)
+    
 
     -- AntiAFK Section in Fishing AI Tab
     local antiAfkSection = Instance.new("Frame", fishingAIScrollFrame)
     antiAfkSection.Size = UDim2.new(1, -10, 0, 60)
-    antiAfkSection.Position = UDim2.new(0, 5, 0, 265)
+    antiAfkSection.Position = UDim2.new(0, 5, 0, 335)
     antiAfkSection.BackgroundColor3 = Color3.fromRGB(45,45,52)
     antiAfkSection.BorderSizePixel = 0
     Instance.new("UICorner", antiAfkSection)
@@ -2052,7 +1968,7 @@ local function BuildUI()
     -- Future Features Section (placeholder for upcoming features)
     local futureSection = Instance.new("Frame", fishingAIScrollFrame)
     futureSection.Size = UDim2.new(1, -10, 0, 80)
-    futureSection.Position = UDim2.new(0, 5, 0, 335)
+    futureSection.Position = UDim2.new(0, 5, 0, 405)
     futureSection.BackgroundColor3 = Color3.fromRGB(45,45,52)
     futureSection.BorderSizePixel = 0
     Instance.new("UICorner", futureSection)
@@ -2079,7 +1995,7 @@ local function BuildUI()
     futureInfo.TextYAlignment = Enum.TextYAlignment.Top
 
     -- Set canvas size for fishing AI scroll (current content + space for future)
-    fishingAIScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 450)
+    fishingAIScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 500)
 
     -- Teleport Tab Content
     local teleportFrame = Instance.new("Frame", contentContainer)
@@ -2154,7 +2070,7 @@ local function BuildUI()
         end)
         
         table.insert(buttons, btn)
-        yOffset = yOffset + 33
+        yOffset = yPos + 33
     end
 
     -- Update scroll frame content size
@@ -3103,8 +3019,8 @@ local function BuildUI()
 
     -- Rarity bars (Updated for real fish data)
     local rarityTypes = {
-        {name = "MYTHIC", color = Color3.fromRGB(255,50,50), icon = "�"},
-        {name = "LEGENDARY", color = Color3.fromRGB(255,100,255), icon = "�"},
+        {name = "MYTHIC", color = Color3.fromRGB(255,50,50), icon = ""},
+        {name = "LEGENDARY", color = Color3.fromRGB(255,100,255), icon = ""},
         {name = "EPIC", color = Color3.fromRGB(150,50,200), icon = "💜"},
         {name = "RARE", color = Color3.fromRGB(100,150,255), icon = "⭐"},
         {name = "UNCOMMON", color = Color3.fromRGB(0,255,200), icon = "💎"},
@@ -3435,7 +3351,7 @@ local function BuildUI()
         sessionId = sessionId + 1
         modeStatus.Text = "🔒 Secure Mode Ready - Safe & Reliable Fishing"
         modeStatus.TextColor3 = Color3.fromRGB(100,255,150)
-        Notify("modern_autofish", "� Secure Mode stopped")
+        Notify("modern_autofish", " Stop Secure")
     end)
 
     -- AntiAFK toggle
