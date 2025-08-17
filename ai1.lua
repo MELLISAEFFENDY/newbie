@@ -1670,10 +1670,10 @@ local function BuildUI()
     Instance.new("UICorner", fishingAITabBtn)
 
     -- Auto+Instan Button
-    -- Auto+Instan Button di dalam Tab Fishing AI (di atas Anti AFK)
+    -- Auto+Instan Button di dalam Tab Fishing AI (tepat di atas Anti AFK section)
     local autoInstanBtn = Instance.new("TextButton", fishingAIScrollFrame)
     autoInstanBtn.Size = UDim2.new(1, -20, 0, 38)
-    autoInstanBtn.Position = UDim2.new(0, 10, 0, 260) -- Di atas Anti AFK section
+    autoInstanBtn.Position = UDim2.new(0, 10, 0, 225) -- Di atas Anti AFK section (Anti AFK di Y=265)
     autoInstanBtn.Text = "Auto+Instan"
     autoInstanBtn.Font = Enum.Font.GothamBold
     autoInstanBtn.TextSize = 15
