@@ -1856,6 +1856,7 @@ local function BuildUI()
 
     -- Smart AI Mode Selection Section  
 
+
     local aiModeSection = Instance.new("Frame", fishingAIScrollFrame)
     aiModeSection.Size = UDim2.new(1, -10, 0, 120)
     aiModeSection.Position = UDim2.new(0, 5, 0, 135)
@@ -1904,6 +1905,58 @@ local function BuildUI()
     aiStatusLabel.TextColor3 = Color3.fromRGB(200,200,200)
     aiStatusLabel.BackgroundTransparency = 1
     aiStatusLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+    -- SECTION: Auto+Instan (mengikuti cara section lain)
+    local autoInstanSection = Instance.new("Frame", fishingAIScrollFrame)
+    autoInstanSection.Size = UDim2.new(1, -10, 0, 60)
+    autoInstanSection.Position = UDim2.new(0, 5, 0, 255)
+    autoInstanSection.BackgroundColor3 = Color3.fromRGB(45,45,52)
+    autoInstanSection.BorderSizePixel = 0
+    Instance.new("UICorner", autoInstanSection)
+
+    local autoInstanLabel = Instance.new("TextLabel", autoInstanSection)
+    autoInstanLabel.Size = UDim2.new(1, -20, 0, 20)
+    autoInstanLabel.Position = UDim2.new(0, 10, 0, 5)
+    autoInstanLabel.Text = "⚡ Auto+Instan Fishing"
+    autoInstanLabel.Font = Enum.Font.GothamBold
+    autoInstanLabel.TextSize = 14
+    autoInstanLabel.TextColor3 = Color3.fromRGB(70,130,200)
+    autoInstanLabel.BackgroundTransparency = 1
+    autoInstanLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    local autoInstanBtn = Instance.new("TextButton", autoInstanSection)
+    autoInstanBtn.Size = UDim2.new(0.5, -8, 0, 28)
+    autoInstanBtn.Position = UDim2.new(0, 10, 0, 30)
+    autoInstanBtn.Text = "Auto+Instan"
+    autoInstanBtn.Font = Enum.Font.GothamBold
+    autoInstanBtn.TextSize = 13
+    autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
+    autoInstanBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Instance.new("UICorner", autoInstanBtn)
+
+    -- Loop logic for Auto+Instan
+    local autoInstanActive = false
+    local autoInstanLoop
+    autoInstanBtn.MouseButton1Click:Connect(function()
+        autoInstanActive = not autoInstanActive
+        if autoInstanActive then
+            autoInstanBtn.Text = "Stop Auto+Instan"
+            autoInstanBtn.BackgroundColor3 = Color3.fromRGB(200, 70, 70)
+            autoInstanLoop = task.spawn(function()
+                while autoInstanActive do
+                    if finishRemote then
+                        pcall(function() finishRemote:FireServer() end)
+                    end
+                    task.wait(0.05)
+                end
+            end)
+            Notify("Auto+Instan", "Loop aktif!")
+        else
+            autoInstanBtn.Text = "Auto+Instan"
+            autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
+            Notify("Auto+Instan", "Loop dihentikan!")
+        end
+    end)
 
     -- SECTION: Auto+Instan
     local autoInstanSection = Instance.new("Frame", fishingAIScrollFrame)
