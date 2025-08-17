@@ -2070,7 +2070,7 @@ local function BuildUI()
         end)
         
         table.insert(buttons, btn)
-        yOffset = yPos + 33
+        yOffset = yOffset + 33
     end
 
     -- Update scroll frame content size
