@@ -1670,12 +1670,13 @@ local function BuildUI()
     Instance.new("UICorner", fishingAITabBtn)
 
     -- Auto+Instan Button
-    local autoInstanBtn = Instance.new("TextButton", sidebar)
-    autoInstanBtn.Size = UDim2.new(1, -10, 0, 40)
-    autoInstanBtn.Position = UDim2.new(0, 5, 0, 50)
+    -- Auto+Instan Button di dalam Tab Fishing AI (di atas Anti AFK)
+    local autoInstanBtn = Instance.new("TextButton", fishingAIScrollFrame)
+    autoInstanBtn.Size = UDim2.new(1, -20, 0, 38)
+    autoInstanBtn.Position = UDim2.new(0, 10, 0, 260) -- Di atas Anti AFK section
     autoInstanBtn.Text = "Auto+Instan"
     autoInstanBtn.Font = Enum.Font.GothamBold
-    autoInstanBtn.TextSize = 16
+    autoInstanBtn.TextSize = 15
     autoInstanBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 200)
     autoInstanBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     Instance.new("UICorner", autoInstanBtn)
@@ -1693,7 +1694,7 @@ local function BuildUI()
                     if finishRemote then
                         pcall(function() finishRemote:FireServer() end)
                     end
-                    task.wait(0.05) -- instan loop, bisa diubah jika terlalu cepat
+                    task.wait(0.05)
                 end
             end)
             Notify("Auto+Instan", "Loop aktif!")
